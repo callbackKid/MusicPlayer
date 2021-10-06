@@ -1,30 +1,30 @@
-const musicContainer = document.getElementsByClassName("music-container");
-const playBtn = document.getElementById("play");
-const prevBtn = document.getElementById("prev");
-const nextBtn = document.getElementById("next");
+const musicContainer = document.querySelector(".music-container");
+const playBtn = document.querySelector("#play");
+const prevBtn = document.querySelector("#prev");
+const nextBtn = document.querySelector("#next");
 
 const audio = document.querySelector("#audio");
 const progress = document.querySelector(".progress");
-const progressContainer = document.querySelector(".progressContainer");
+const progressContainer = document.querySelector(".progress-container");
 const title = document.querySelector("#title");
 const cover = document.querySelector("#cover");
-const currTime = document.querySelector("#currTime");
-const durTime = document.querySelector("#durTime");
 
-const songs = ["summer", "hey", "ukulele"];
-
-//a track of a song
+// Song titles
+const songs = ["hey", "summer", "ukulele"];
+// Keep track of song
 let songIndex = 0;
 
-//song info from a DOM
-loadSong(songs[songIndex]);
+// Initially load song details into DOM
+//loadSong(songs[songIndex]);
 
+// Update song details
 function loadSong(song) {
   title.innerText = song;
   audio.src = `music/${song}.mp3`;
-  cover.src = `image/${song}.jpeg`;
+  cover.src = `image/${song}.jpg`;
 }
 
+// Play song
 function playSong() {
   musicContainer.classList.add("play");
   playBtn.querySelector("i.fas").classList.remove("fa-play");
@@ -33,6 +33,7 @@ function playSong() {
   audio.play();
 }
 
+// Pause song
 function pauseSong() {
   musicContainer.classList.remove("play");
   playBtn.querySelector("i.fas").classList.add("fa-play");
@@ -41,21 +42,29 @@ function pauseSong() {
   audio.pause();
 }
 
+// Previous song
 function prevSong() {
   songIndex--;
+
   if (songIndex < 0) {
-    songIndex = song.length - 1;
+    songIndex = songs.length - 1;
   }
+
   loadSong(songs[songIndex]);
+
   playSong();
 }
 
+// Next song
 function nextSong() {
   songIndex++;
+
   if (songIndex > songs.length - 1) {
     songIndex = 0;
   }
+
   loadSong(songs[songIndex]);
+
   playSong();
 }
 
@@ -102,9 +111,6 @@ function DurTime(e) {
 
   get_sec(currentTime, sec);
 
-  // change currentTime DOM
-  currTime.innerHTML = min + ":" + sec;
-
   // define minutes duration
   let min_d = isNaN(duration) === true ? "0" : Math.floor(duration / 60);
   min_d = min_d < 10 ? "0" + min_d : min_d;
@@ -126,15 +132,11 @@ function DurTime(e) {
   // define seconds duration
 
   get_sec_d(duration);
-
-  // change duration DOM
-  durTime.innerHTML = min_d + ":" + sec_d;
 }
 
 // Event listeners
 playBtn.addEventListener("click", () => {
   const isPlaying = musicContainer.classList.contains("play");
-
   if (isPlaying) {
     pauseSong();
   } else {
